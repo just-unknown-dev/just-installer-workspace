@@ -1,35 +1,23 @@
-/// GitHub-Releases-facing configuration for the showcase app.
-///
-/// This file is the ONLY place that knows about a specific hosting backend
-/// (repo owner/name, token) — `just_installer` itself never hardcodes any
-/// of this, it only ever receives a `manifestUrl` + `headersBuilder` via
-/// `JustInstallerConfig`. Swapping hosting backends is a change here, never
-/// a package change.
-///
-/// Uses the stable `.../releases/latest/download/<asset-name>` URL pattern:
-/// it always resolves to the newest published release and avoids both the
-/// rate-limited GitHub REST API and `raw.githubusercontent.com` caching lag.
-class GitHubReleaseHost {
-  const GitHubReleaseHost({required this.owner, required this.repo, this.token});
+/// GitHub Releases hosting config — the only file that knows about a
+/// specific repo/token. Everything else in this app treats update hosting
+/// as opaque (see [just_installer]'s [JustInstallerConfig.manifestUrl]).
+library;
 
-  final String owner;
-  final String repo;
+/// Set to `'owner/repo'` to point the showcase at a real GitHub Releases
+/// feed. Leave blank to fall back to the bundled local demo server
+/// (see `demo_server.dart`).
+const String githubReleaseHost = 'just-unknown-dev/just-installer-workspace';
 
-  /// Only needed for a private repo — sent as `Authorization: Bearer $token`,
-  /// which GitHub honors for private release-asset downloads.
-  final String? token;
+/// Optional bearer token, only needed for a private repo's releases.
+const String githubToken = '';
 
-  bool get isConfigured => owner.isNotEmpty && repo.isNotEmpty;
+bool get isGithubReleaseHostConfigured => githubReleaseHost.isNotEmpty;
 
-  Uri get manifestUrl => Uri.parse('https://github.com/$owner/$repo/releases/latest/download/manifest.json');
+/// Stable URL that always resolves to the manifest asset on the most
+/// recent non-draft, non-prerelease GitHub Release.
+Uri get githubManifestUrl =>
+    Uri.parse('https://github.com/$githubReleaseHost/releases/latest/download/manifest.json');
 
-  Future<Map<String, String>> Function()? get headersBuilder =>
-      token == null ? null : () async => {'Authorization': 'Bearer $token'};
-}
-
-/// Fill these in once you've published a GitHub Release containing
-/// `manifest.json` + an update artifact (see the README's "Publishing a
-/// real demo release" section). Left blank by default, so the app falls
-/// back to the bundled local dev server (see `demo_server.dart`) — that's a
-/// dev-loop convenience, not a second hosting backend to maintain.
-const githubReleaseHost = GitHubReleaseHost(owner: '', repo: '');
+/// Lists every release (not just the latest) via the GitHub REST API —
+/// used by the "All releases" screen. No auth needed for a public repo.
+Uri get githubReleasesApiUrl => Uri.parse('https://api.github.com/repos/$githubReleaseHost/releases');

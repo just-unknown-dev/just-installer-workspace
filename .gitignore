@@ -46,3 +46,8 @@ app.*.map.json
 
 # Packages
 /packages/
+
+# Secrets — see scripts/secrets.env.example for the expected keys
+scripts/secrets.env
+scripts/secrets.env.*
+!scripts/secrets.env.example

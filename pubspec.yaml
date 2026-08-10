@@ -35,13 +35,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-  just_installer: ^0.0.1
-  just_downloads: ^0.0.1
-  package_info_plus: ^8.0.0
+  just_installer: ^0.1.0
+  just_downloader: ^0.1.0
+  package_info_plus: ^10.2.1
   shelf: ^1.4.0
   shelf_router: ^1.1.0
   crypto: ^3.0.3
   path_provider: ^2.1.0
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:

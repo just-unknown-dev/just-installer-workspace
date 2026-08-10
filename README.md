@@ -3,7 +3,7 @@
 Showcase workspace for [`just_installer`](packages/just_installer) — a
 modern, self-hosted APK auto-updater for Flutter with no dependency on
 Google Play Store or Play Services — and its companion download engine,
-[`just_downloads`](packages/just_downloads).
+[`just_downloader`](packages/just_downloader).
 
 ## Structure
 
@@ -11,7 +11,7 @@ Google Play Store or Play Services — and its companion download engine,
 packages/just_installer/   The updater: manifest check, sealed-class state
                             machine, Android PackageInstaller Session API
                             install, APK signature verification.
-packages/just_downloads/    The generic resumable/chunked download engine,
+packages/just_downloader/  The generic resumable/chunked download engine,
                             checksum verification, and TLS pinning that
                             just_installer builds on.
 lib/                        This showcase app.
@@ -84,7 +84,7 @@ repos with no auth, and for private repos with a bearer token).
 ## Testing
 
 ```
-cd packages/just_downloads && flutter test
+cd packages/just_downloader && flutter test
 cd packages/just_installer && flutter test
 ```
 

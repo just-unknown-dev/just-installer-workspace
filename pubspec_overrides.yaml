@@ -2,5 +2,5 @@
 dependency_overrides:
   just_installer:
     path: packages/just_installer
-  just_downloads:
-    path: packages/just_downloads
+  just_downloader:
+    path: packages/just_downloader
